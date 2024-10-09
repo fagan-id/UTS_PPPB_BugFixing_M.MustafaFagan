@@ -18,9 +18,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        var kehadiranText = " "
+
         with(binding){
+
+
+
+
 //            Get Array
             val monthList = resources.getStringArray(R.array.month)
+            val kehadiranList = resources.getStringArray(R.array.kehadiranList)
 
 //            Initiate
             var selectedTime ="${timePicker.hour}:${timePicker.minute}"
@@ -31,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
 //            Kehadiran Dropdown=======================================
             val adapterKehadiran = ArrayAdapter<String>(
-                this,
+                this@MainActivity,
                 android.R.layout.simple_spinner_item,
                 kehadiranList
             )
@@ -41,7 +48,16 @@ class MainActivity : AppCompatActivity() {
             kehadiranSpinner.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        kehadiranText = kehadiranList[position]
 
+
+//            Menampilkan Keterangan EditText
+
+                        if (kehadiranText == "Terlambat" || kehadiranText == "Izin") {
+                            keteranganEdittext.visibility = View.VISIBLE
+                        } else {
+                            keteranganEdittext.visibility = View.GONE
+                        }
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -50,7 +66,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
 
-
+            submitButton.setOnClickListener {
+                Toast.makeText(this@MainActivity, "Presensi berhasil $selectedDate jam $selectedTime", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
